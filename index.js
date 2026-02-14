@@ -102,19 +102,27 @@ async function run() {
     })
     // Statistic Section
     app.get('/statistics', async (req, res) => {
-  try {
-    const totalMovies = await movieCollection.countDocuments();
+      try {
+        const totalMovies = await movieCollection.countDocuments();
 
-    res.send({
-      totalMovies,
-      totalUsers:5
+        res.send({
+          totalMovies,
+          totalUsers: 5
+        });
+
+      } catch (error) {
+        res.status(500).send({ message: "Failed to fetch statistics" });
+      }
     });
 
-  } catch (error) {
-    res.status(500).send({ message: "Failed to fetch statistics" });
-  }
-});
-
+    // API For my movie collection
+    app.get('/my-collections',async (req, res) => {
+      const email = req.query.email
+      const result = await movieCollection.find({
+        addedBy: email
+      }).toArray()
+      res.send(result)
+    })
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
