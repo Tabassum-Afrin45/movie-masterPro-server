@@ -47,15 +47,7 @@ async function run() {
           })
     })
 
-    // API For store Movie in Database
-    app.post('/movies',async(req,res)=>{
-      const data=req.body
-      console.log(data)
-      const result= await movieCollection.insertOne(data)
-      res.send({
-        result
-      })
-    })
+ 
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
