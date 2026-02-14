@@ -100,6 +100,21 @@ async function run() {
       console.log(result)
       res.send(result)
     })
+    // Statistic Section
+    app.get('/statistics', async (req, res) => {
+  try {
+    const totalMovies = await movieCollection.countDocuments();
+
+    res.send({
+      totalMovies,
+      totalUsers:5
+    });
+
+  } catch (error) {
+    res.status(500).send({ message: "Failed to fetch statistics" });
+  }
+});
+
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
