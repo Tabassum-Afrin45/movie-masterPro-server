@@ -85,11 +85,20 @@ async function run() {
     })
 
     // Latest 6 data
-    app.get('/latest-movies',async(req,res)=>{
-      const result=await movieCollection.find().sort({
-releaseYear:-1}).limit(6).toArray()
-console.log(result)
-res.send(result)
+    app.get('/latest-movies', async (req, res) => {
+      const result = await movieCollection.find().sort({
+        releaseYear: -1
+      }).limit(6).toArray()
+      console.log(result)
+      res.send(result)
+    })
+    // Top Rated Movies 5 data
+    app.get('/top-rated', async (req, res) => {
+      const result = await movieCollection.find().sort({
+        rating: -1
+      }).limit(5).toArray()
+      console.log(result)
+      res.send(result)
     })
 
     await client.db("admin").command({ ping: 1 });
