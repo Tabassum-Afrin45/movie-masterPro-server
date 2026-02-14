@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+require("dotenv").config()
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -8,7 +9,7 @@ const port = process.env.PORT || 3000
 app.use(cors())
 app.use(express.json())
 
-const uri = "mongodb+srv://movieMaster-DB:nc9wtUH5JeAGqwgs@cluster0.9hxu1jn.mongodb.net/?appName=Cluster0";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.9hxu1jn.mongodb.net/?appName=Cluster0`;
 
 const client = new MongoClient(uri, {
   serverApi: {
