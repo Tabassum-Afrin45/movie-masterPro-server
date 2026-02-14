@@ -42,7 +42,6 @@ async function run() {
           const result=await movieCollection.findOne({_id: new ObjectId(id)})
 
           res.send({
-            success:true,
             result
           })
     })
@@ -55,6 +54,25 @@ async function run() {
       res.send({
         result
       })
+    })
+
+    // API For update Movie
+  app.put('/movies/:id',async(req,res)=>{
+          const {id}=req.params
+          const data=req.body
+          // console.log(id)
+          // console.log(data)
+          const objectId=new ObjectId(id)
+          const filter={_id:objectId}
+          const update={
+            $set:data
+          }
+          const result=await movieCollection.updateOne(filter,update)
+
+          res.send({
+            success:true,
+            result
+          })
     })
 
     await client.db("admin").command({ ping: 1 });
