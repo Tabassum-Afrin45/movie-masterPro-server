@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT||3000
 
@@ -28,6 +28,35 @@ async function run() {
     const db=client.db('movies_db')
     const movieCollection=db.collection('movies')
     
+    // API For All Movies
+    app.get('/movies',async(req,res)=>{
+        const result= await movieCollection.find().toArray()
+        console.log(result)
+        res.send(result)
+    })
+    
+    // API for Getting One Movie Details
+    app.get('/movies/:id',async(req,res)=>{
+          const {id}=req.params
+          console.log(id)
+          const result=await movieCollection.findOne({_id: new ObjectId(id)})
+
+          res.send({
+            success:true,
+            result
+          })
+    })
+
+    // API For store Movie in Database
+    app.post('/movies',async(req,res)=>{
+      const data=req.body
+      console.log(data)
+      const result= await movieCollection.insertOne(data)
+      res.send({
+        result
+      })
+    })
+
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } 
